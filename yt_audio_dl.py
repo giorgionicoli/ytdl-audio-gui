@@ -12,10 +12,12 @@ def download_audio(url, file_name):
     response = urllib.request.urlopen(streams.first().url)  # nosec
 
     if not file_name:
-        file_name = "_".join(content.title.split(" "))
+        file_name = content.title
 
     if not file_name.endswith(".mp3"):
         file_name += ".mp3"
+
+    file_name = "_".join(file_name.split(" "))
 
     command = ("ffmpeg", "-y", "-i", "-", file_name)
     process = subprocess.Popen(command, stdin=subprocess.PIPE)  # nosec
@@ -28,3 +30,5 @@ def download_audio(url, file_name):
 
     process.stdin.close()
     process.wait()
+
+    return file_name

@@ -4,6 +4,7 @@ from PyQt5.QtWidgets import (
     QApplication,
     QDialog,
     QFormLayout,
+    QLabel,
     QLineEdit,
     QPushButton,
     QVBoxLayout,
@@ -29,8 +30,11 @@ class Dialog(QDialog):
         button = QPushButton("Download mp3 file")
         button.clicked.connect(self._slot_func)  # type: ignore
 
+        self.alert = QLabel("")
+
         v_layout.addLayout(form_layout)
         v_layout.addWidget(button)
+        v_layout.addWidget(self.alert)
 
         self.setLayout(v_layout)
 
@@ -39,7 +43,8 @@ class Dialog(QDialog):
         file_name = self.file_name.text()
         self.video_url.setText("")
         self.file_name.setText("")
-        download_audio(video_url, file_name)
+        downloaded_file = download_audio(video_url, file_name)
+        self.alert.setText(f"Downloaded {downloaded_file}")
 
 
 def main():
